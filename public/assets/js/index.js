@@ -25,6 +25,7 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
+// searches for note in JSON 
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
@@ -33,15 +34,17 @@ const getNotes = () =>
     },
   });
 
+// uses POST method to save note to JSON
 const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    // from object to sting
     body: JSON.stringify(note),
   });
-
+// uses DELETE method to delete note from JSON
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -50,6 +53,7 @@ const deleteNote = (id) =>
     },
   });
 
+  // renders the active note when user clicks on it
 const renderActiveNote = () => {
   hide(saveNoteBtn);
 
@@ -65,7 +69,7 @@ const renderActiveNote = () => {
     noteText.value = '';
   }
 };
-
+// makes note into object, puts new note in the list, renders new note
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
@@ -83,12 +87,13 @@ const handleNoteDelete = (e) => {
   e.stopPropagation();
 
   const note = e.target;
+  // gets the targets id from the db JSON
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
 
   if (activeNote.id === noteId) {
     activeNote = {};
   }
-
+  // deletes note then renders new list
   deleteNote(noteId).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -107,8 +112,9 @@ const handleNewNoteView = (e) => {
   activeNote = {};
   renderActiveNote();
 };
-
+// when save btn is clicked
 const handleRenderSaveBtn = () => {
+  // shows the save btn after text has been added
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
   } else {
@@ -122,7 +128,7 @@ const renderNoteList = async (notes) => {
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
-
+// note list array
   let noteListItems = [];
 
   // Returns HTML element with or without a delete button
@@ -153,18 +159,18 @@ const renderNoteList = async (notes) => {
 
     return liEl;
   };
-
+  // if there are no notes
   if (jsonNotes.length === 0) {
     noteListItems.push(createLi('No saved Notes', false));
   }
-
+  // creates list items for each note
   jsonNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
 
     noteListItems.push(li);
   });
-
+  // appends notes
   if (window.location.pathname === '/notes') {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
