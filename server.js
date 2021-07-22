@@ -3,17 +3,14 @@ const path = require('path');
 const fs = require('fs');
 const util = require('util');
 const uuid = require('./helpers/uuid');
-
 // PORT number
 const PORT = process.env.PORT || 3001;
-
 // express
 const app = express();
 
 // middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static('public'));
 
 // GET for homepage
@@ -83,6 +80,18 @@ const readAndAppend = (content, file) => {
         }
     });
 };
+
+// deletes note when btn is clicked by taking the note out of array then returning new array
+app.delete("/api/notes/:id", (req, res) => {
+    db.forEach((note, i) => {
+      if (note.id === req.params.id) {db.splice(i, 1)}
+    })
+  
+    fs.writeFile("db/db.json", JSON.stringify(db), (err) => {
+        err ? console.info(err) : console.log('Note deleted from database')
+    })
+    res.send(db)
+  })
 
 app.listen(PORT, () =>
     console.log(`App listening at http://localhost:${PORT}`)
