@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const db = require('./db/db.json');
 const util = require('util');
 const uuid = require('./helpers/uuid');
 // PORT number
@@ -33,16 +34,17 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {
     console.info(`${req.method} request to create a new note received`);
 
-    const {title, content} = req.body;
+    const { title, text } = req.body;
 
     if(req.body) {
         const newNote = {
             title,
-            content,
-            note_id: uuid(),
+            text,
+            id: uuid(),
         };
 
-        readAndAppend(newNote, './db/db.json');
+        db.push(newNote);
+        fs.writeFileSync("./db/db.json", JSON.stringify(db))
         res.json('Note saved to request body');
     } else {
         res.error('Error saving to request body');
