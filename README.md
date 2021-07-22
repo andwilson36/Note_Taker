@@ -26,5 +26,11 @@ https://andwilson36-note-taker.herokuapp.com/
 
 ## Media
 
+This is a image showing the home page of the application.
+![](/public/assets/images/landing.png)
+
+This is a image showing how the user can make notes, save them, access older notes and, delete notes.
+![](/public/assets/images/list.png)
+
 ## License
 The source code is licensed under MIT.
