@@ -2,8 +2,6 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
-import { join } from 'node:path';
-import { v4 as uuidv4 } from 'uuid';
 
 // PORT number
 const PORT = 3001;
@@ -85,3 +83,6 @@ const readAndAppend = (content, file) => {
     });
 };
 
+app.listen(PORT, () =>
+    console.log(`App listening at http://localhost:${PORT}`)
+);
