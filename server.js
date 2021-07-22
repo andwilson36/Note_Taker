@@ -5,7 +5,7 @@ const util = require('util');
 const uuid = require('./helpers/uuid');
 
 // PORT number
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // express
 const app = express();
