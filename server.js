@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
+const uuid = require('./helpers/uuid');
 
 // PORT number
 const PORT = 3001;
@@ -17,12 +18,12 @@ app.use(express.static('public'));
 
 // GET for homepage
 app.get('/', (req, res) =>
-    res.send(path.join(__dirname, '/public/index.html'))
+    res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
 // GET for the notes.html
 app.get('/notes', (req, res) =>
-    res.send(path.join(__dirname, '/public/notes.html'))
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
 // GET to retrieve the notes from the db.json file
@@ -41,11 +42,11 @@ app.post('/api/notes', (req, res) => {
         const newNote = {
             title,
             content,
-            note_id: uuidv4(),
+            note_id: uuid(),
         };
 
         readAndAppend(newNote, './db/db.json');
-        res.join('Note saved to request body');
+        res.json('Note saved to request body');
     } else {
         res.error('Error saving to request body');
     }
