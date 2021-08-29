@@ -1,7 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Note_Taker
-Application to write and save notes, this application will use an Express.js back end and will save and retrieve note data from a JSON file.
+Application to write and save notes, this application will use an Express.js and Node.js back end and will save and retrieve note data from a JSON file.
 
 ### Deployed Link
 https://andwilson36-note-taker.herokuapp.com/
